@@ -1,0 +1,26 @@
+{
+  "name": "easy-slackbot",
+  "version": "0.0.2",
+  "description": "Node.js slackbot with customizable commands that makes sense.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wsloth/easy-slackbot.git"
+  },
+  "keywords": [
+    "slack",
+    "slackbot",
+    "slack",
+    "commands",
+    "commands"
+  ],
+  "author": "Wessel Loth",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/wsloth/easy-slackbot/issues"
+  },
+  "homepage": "https://github.com/wsloth/easy-slackbot#readme"
+}

@@ -110,17 +110,10 @@ function SlackBot(options) {
 
     // PUBLIC METHODS ======================================================= #
 
-    var sendMsg = function (channel, message) {
-        api.sendMsg(channel, message);
-    };
-
-    var getUser = function (id) {
-        return api.getUser(id);
-    };
-
     return {
-        getUser: getUser,
-        sendMsg: sendMsg,
+        getUser: (id) => { return api.getUser(id) },
+        sendMsg: (channel, message) => api.sendMsg(channel, message),
+        sendPM: (userID, message) => api.sendPM(userID, message),
         connect: connect,
         addCommand: addCommand,
     };

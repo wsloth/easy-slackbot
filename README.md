@@ -53,6 +53,10 @@ bot.addCommand(new MyCmd('heyyy'));
 bot.connect();
 ```
 
+## TODO
+
+* Custom OnTeamJoin event
+
 ## License
 
 This program is licensed under the GPL-3.0 license.

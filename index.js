@@ -64,7 +64,7 @@ class SlackBot {
             // Respond if the command is in the commands array
             var cmd = command[0].toLowerCase();
             if (typeof this.commands[cmd] == 'function') {
-                this.commands[cmd](data, command, function(res) {
+                this.commands[cmd](data, command, this, function(res) {
                     this.api.sendMsg(data.channel, res);
                 });
             }

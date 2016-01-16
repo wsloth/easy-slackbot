@@ -1,6 +1,6 @@
 {
   "name": "easy-slackbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node.js slackbot with customizable commands that makes sense.",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/wsloth/easy-slackbot/issues"
   },
-  "homepage": "https://github.com/wsloth/easy-slackbot#readme"
+  "homepage": "https://github.com/wsloth/easy-slackbot#readme",
+  "dependencies": {
+    "slackbotapi": "^1.3.7"
+  }
 }

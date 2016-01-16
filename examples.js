@@ -24,7 +24,7 @@ var bot = new SlackBot({
     // Botname from @botmention
     name: 'U0J1BG81G',
     // Provide a onTeamJoin handler
-    welcome: function(data, ctx, callback) {
+    welcome: function(data, ctx, slack, callback) {
         callback('Welcome!');
     },
     // Command prefix

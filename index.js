@@ -13,7 +13,7 @@ function SlackBot(options) {
     var api;
 
     if (options.name)
-        name = options.name;
+        name = `<@${options.name}>`;
     else if (process.env.SLACK_BOTNAME)
         name = `<@${process.env.SLACK_BOTNAME}>`;
     else

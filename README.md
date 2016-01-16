@@ -12,9 +12,11 @@ Using `'use strict';` is required for this bot to run.
 
 ```javascript
 'use strict';
-var slack = require('easy-slackbot');
-var Command = slack.Command;
+
+var slack = require('./index');
 var SlackBot = slack.Bot;
+var Command = slack.Command;
+
 
 // Create your custom command
 class MyCmd extends Command {
@@ -23,7 +25,7 @@ class MyCmd extends Command {
     }
 
     // Override the default handler (!)
-    handler(data, ctx, callback) {
+    handler(data, ctx, slack, callback) {
         var response = 'Hello there!';
         callback(response);
     }
@@ -31,7 +33,7 @@ class MyCmd extends Command {
 
 var bot = new SlackBot({
     // API Auth token
-    token: 'your slack api token',
+    token: '<your slack token>',
     // Botname from @botmention
     name: 'U0J1BG81G',
     // Provide a onTeamJoin handler
@@ -45,11 +47,6 @@ var bot = new SlackBot({
         new MyCmd(['hi', 'hello', 'hey']),
     ],
 });
-
-// Add commands later
-bot.addCommand(new MyCmd('heyyy'));
-
-// Initialize and connect
 bot.connect();
 ```
 

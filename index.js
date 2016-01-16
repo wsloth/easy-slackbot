@@ -34,6 +34,18 @@ function SlackBot(options) {
         else
             throw new Error('You must give an instance of a Command object.');
     };
+    
+    var addCommandDirectly = function(cmd, func) {
+        if (typeof func === 'function') {
+            if (typeof cmdswitch[cmd] === 'function') {
+                throw new Error(`The command "${cmd}" already exists.`);
+            } else {
+                cmdswitch[cmd] = func;
+            }
+        } else {
+            throw new Error('You must provide a function to add directly.');
+        }
+    };
 
     // PRIVATE METHODS ====================================================== #
 
@@ -86,7 +98,6 @@ function SlackBot(options) {
     // API SETUP ============================================================ #
 
     var connect = function () {
-        cmdswitch = {};
         // Construct the commands switch
         for (var command in commands) {
             for (var cmd of commands[command]) {
@@ -116,6 +127,7 @@ function SlackBot(options) {
         sendPM: (userID, message) => api.sendPM(userID, message),
         connect: connect,
         addCommand: addCommand,
+        addCommandDirectly: addCommandDirectly,
     };
 }
 

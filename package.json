@@ -1,6 +1,6 @@
 {
   "name": "easy-slackbot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Node.js slackbot with customizable commands that makes sense.",
   "main": "index.js",
   "scripts": {

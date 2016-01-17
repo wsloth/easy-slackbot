@@ -1,4 +1,4 @@
-# easy-slackbot
+# easy-slackbot [![npm version](https://badge.fury.io/js/easy-slackbot.svg)](https://badge.fury.io/js/easy-slackbot) [![issues](https://img.shields.io/github/issues/wsloth/easy-slackbot.svg)](https://github.com/wsloth/easy-slackbot/issues)
 
 Node.js slackbot with customizable commands that makes sense.
 At it's core, easy-slackbot is a wrapper around the [slackbotapi](https://github.com/xBytez/slackbotapi)

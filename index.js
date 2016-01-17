@@ -28,21 +28,34 @@ function SlackBot(options) {
         };
     }
 
+    /*
+    * Add a command to the bot.
+    * @param {Command} command Instance of a Command class.
+    * @example addCommand(new MyCommand())
+    */
     var addCommand = function (command) {
         if (command instanceof Command)
             commands.push(command);
         else
             throw new Error('You must give an instance of a Command object.');
     };
-    
-    var addCommandDirectly = function(cmd, func) {
+
+    /*
+    * Add a new command directly without using Command.
+    * @param {string} cmd Lowercase string of command trigger word.
+    * @param {Function} func Callback function that accepts 4 arguments.
+    * @example addCommandDirectly('hello', (a, b, c, cb) => cb('Hey!'))
+    */
+    var addCommandDirectly = function (cmd, func) {
         if (typeof func === 'function') {
             if (typeof cmdswitch[cmd] === 'function') {
                 throw new Error(`The command "${cmd}" already exists.`);
-            } else {
+            }
+            else {
                 cmdswitch[cmd] = func;
             }
-        } else {
+        }
+        else {
             throw new Error('You must provide a function to add directly.');
         }
     };
@@ -97,6 +110,9 @@ function SlackBot(options) {
 
     // API SETUP ============================================================ #
 
+    /*
+    * Initializes the registered commands and connects to Slack.
+    */
     var connect = function () {
         // Construct the commands switch
         for (var command in commands) {
@@ -122,9 +138,17 @@ function SlackBot(options) {
     // PUBLIC METHODS ======================================================= #
 
     return {
-        getUser: (id) => { return api.getUser(id) },
+        // Slackbotapi methods
+        getUser: (term) => api.getUser(term),
+        getUserByEmail: (term) => api.getUserByEmail(term),
+        getChannel: (term) => api.getChannel(term),
+        getIM: (term) => api.getIM(term),
         sendMsg: (channel, message) => api.sendMsg(channel, message),
         sendPM: (userID, message) => api.sendPM(userID, message),
+        getSlackData: () => api.getSlackData(),
+        sendTyping: (channel) => api.sendTyping(channel),
+        
+        // Custom methods
         connect: connect,
         addCommand: addCommand,
         addCommandDirectly: addCommandDirectly,
@@ -152,4 +176,5 @@ class Command {
 }
 
 module.exports.Bot = SlackBot;
+module.exports.SlackBot = SlackBot;
 module.exports.Command = Command;

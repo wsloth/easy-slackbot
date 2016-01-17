@@ -31,6 +31,11 @@ class MyCmd extends Command {
 
     // Override the default handler (!)
     handler(data, ctx, slack, callback) {
+        // data = incoming message data. I recommend console.logging it
+        // ctx = commandtext. Array of words in message. Log it.
+        // slack = SlackBot instance. Use it to do slack.getUser(data.user).name
+        // callback = call this function with your response message.
+    
         // This scope is NOT MyCmd. It is the SlackBot scope.
         // To access private methods, I recommend making them
         // static and accessing them through `MyCmd.Method()`

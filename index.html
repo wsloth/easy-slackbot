@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>easy-slackbot by wsloth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">easy-slackbot</h1>
+      <h2 class="project-tagline">Node.js slackbot with customizable commands that makes sense.</h2>
+      <a href="https://github.com/wsloth/easy-slackbot" class="btn">View on GitHub</a>
+      <a href="https://github.com/wsloth/easy-slackbot/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/wsloth/easy-slackbot/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="easy-slackbot--" class="anchor" href="#easy-slackbot--" aria-hidden="true"><span class="octicon octicon-link"></span></a>easy-slackbot <a href="https://badge.fury.io/js/easy-slackbot"><img src="https://badge.fury.io/js/easy-slackbot.svg" alt="npm version"></a> <a href="https://github.com/wsloth/easy-slackbot/issues"><img src="https://img.shields.io/github/issues/wsloth/easy-slackbot.svg" alt="issues"></a>
+</h1>
+
+<p>Node.js slackbot with customizable commands that makes sense.
+At it's core, easy-slackbot is a wrapper around the <a href="https://github.com/xBytez/slackbotapi">slackbotapi</a>
+module made by <a href="https://github.com/xBytez" class="user-mention">@xBytez</a>. I have tried to improve the ease of use of creating 
+custom commands by providing a high-level way to add functionality.</p>
+
+<h2>
+<a id="installing" class="anchor" href="#installing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<pre><code>$ npm install easy-slackbot --save
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><em>Note:</em> <code>'use strict';</code> is required for this bot to run. <code>easy-slackbot</code> uses
+many Ecmascript 6 features.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>; <span class="pl-c">// Important! This uses many ES6 features.</span>
+
+<span class="pl-k">var</span> slack <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>easy-slackbot<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> SlackBot <span class="pl-k">=</span> <span class="pl-smi">slack</span>.<span class="pl-smi">Bot</span>;
+<span class="pl-k">var</span> Command <span class="pl-k">=</span> <span class="pl-smi">slack</span>.<span class="pl-smi">Command</span>;
+
+<span class="pl-c">// Create your custom command</span>
+<span class="pl-k">class</span> <span class="pl-en">MyCmd</span> <span class="pl-k">extends</span> <span class="pl-en">Command</span> {
+    <span class="pl-en">constructor</span>(<span class="pl-smi">commands</span>) {
+        <span class="pl-c">// Commands are the commands that will trigger your handler</span>
+        <span class="pl-c">// can be 'string' or ['string', 'array']</span>
+        <span class="pl-v">super</span>(commands);
+    }
+
+    <span class="pl-c">// Override the default handler (!)</span>
+    <span class="pl-en">handler</span>(<span class="pl-smi">data</span>, <span class="pl-smi">ctx</span>, <span class="pl-smi">slack</span>, <span class="pl-smi">callback</span>) {
+        <span class="pl-c">// data = incoming message data. I recommend console.logging it</span>
+        <span class="pl-c">// ctx = commandtext. Array of words in message. Log it.</span>
+        <span class="pl-c">// slack = SlackBot instance. Use it to do slack.getUser(data.user).name</span>
+        <span class="pl-c">// callback = call this function with your response message.</span>
+
+        <span class="pl-c">// This scope is NOT MyCmd. It is the SlackBot scope.</span>
+        <span class="pl-c">// To access private methods, I recommend making them</span>
+        <span class="pl-c">// static and accessing them through `MyCmd.Method()`</span>
+        <span class="pl-k">var</span> response <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Hello there!<span class="pl-pds">'</span></span>;
+        <span class="pl-en">callback</span>(response);
+    }
+}
+
+<span class="pl-c">// Set up the bot</span>
+<span class="pl-k">var</span> bot <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SlackBot</span>({
+    <span class="pl-c">// API Auth token</span>
+    token<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;your slack token&gt;<span class="pl-pds">'</span></span>,
+    <span class="pl-c">// Botname from @botmention</span>
+    name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>U0J1BG81G<span class="pl-pds">'</span></span>,
+    <span class="pl-c">// Provide a onTeamJoin handler</span>
+    <span class="pl-en">welcome</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">data</span>, <span class="pl-smi">ctx</span>, <span class="pl-smi">slack</span>, <span class="pl-smi">callback</span>) {
+        <span class="pl-en">callback</span>(<span class="pl-s"><span class="pl-pds">'</span>Welcome!<span class="pl-pds">'</span></span>);
+    },
+    <span class="pl-c">// Command prefix</span>
+    prefix<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>!<span class="pl-pds">'</span></span>,
+    <span class="pl-c">// Pass any custom commands</span>
+    commands<span class="pl-k">:</span> [
+        <span class="pl-k">new</span> <span class="pl-en">MyCmd</span>([<span class="pl-s"><span class="pl-pds">'</span>hi<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>hello<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>hey<span class="pl-pds">'</span></span>]),
+    ],
+});
+
+<span class="pl-c">// Add an anonymous function if you can't be bothered to</span>
+<span class="pl-c">// set up a whole extends Command class.</span>
+<span class="pl-smi">bot</span>.<span class="pl-en">addCommandDirectly</span>(<span class="pl-s"><span class="pl-pds">'</span>help<span class="pl-pds">'</span></span>, (<span class="pl-smi">data</span>, <span class="pl-smi">ctx</span>, <span class="pl-smi">slack</span>, <span class="pl-smi">callback</span>) <span class="pl-k">=&gt;</span> {
+    <span class="pl-en">callback</span>(<span class="pl-s"><span class="pl-pds">'</span>Read the docs, *fool*.<span class="pl-pds">'</span></span>);
+});
+
+<span class="pl-c">// Connect async</span>
+<span class="pl-smi">bot</span>.<span class="pl-en">connect</span>();</pre></div>
+
+<p>Due to the way the <code>slackbotapi</code> works, channels and users cannot be 
+<code>@username</code> or <code>#channelname</code>. They must be accessed by their unique ID.
+You can find this ID by running the example code with your own API token.
+If you add the bot to all channels, you can start typing in any of them and 
+check the console output for the event which will list the channel ID and the 
+user ID of the person who is typing. Use this ID to create your custom commands.</p>
+
+<p>Alternatively, use <code>SlackBot.getChannel('#general')</code> to get a channel object 
+which you can use in your code. This also works for the user ID. Simply use 
+<code>SlackBot.getUser('username')</code> and you will get an user object.<br>
+After that, you can use the ID you extract from these objects to send a new 
+message to a specific user or channel.</p>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>More detailed documentation</li>
+<li>Adding custom <code>.on('event', ...)</code> handlers</li>
+<li>Basically a high level wrapper around <code>slackbotapi</code>
+</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This program is licensed under the GPL-3.0 license.</p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>For more detailed information, visit the <a href="https://github.com/xBytez/slackbotapi">slackbotapi git repository.</a><br>
+These examples use <code>SlackBot.methodName()</code>, but you should be using your 
+created instance of SlackBot. In the example above, you would use 
+<code>bot.getChannel('#general')</code> to get the channel object.</p>
+
+<h3>
+<a id="before-connecting" class="anchor" href="#before-connecting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Before connecting</h3>
+
+<h4>
+<a id="slackbotaddcommandcommand" class="anchor" href="#slackbotaddcommandcommand" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.addCommand(command)</h4>
+
+<pre><code>* Add a command to the bot.
+* @param {Command} command Instance of a Command class.
+* @example addCommand(new MyCommand())
+</code></pre>
+
+<h4>
+<a id="slackbotaddcommanddirectlycommand-function" class="anchor" href="#slackbotaddcommanddirectlycommand-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.addCommandDirectly(command, function)</h4>
+
+<p>You can use this to add commands without making use of the supplied <code>Command</code> 
+class. Simply specify a word which the command will be triggered on, and add a 
+function that has 4 arguments <code>(data, commandtext, slack, callback)</code>. To respond,
+simply use <code>callback('your response')</code>.</p>
+
+<pre><code>* Add a new command directly without using Command.
+* @param {string} cmd Lowercase string of command trigger word.
+* @param {Function} func Callback function that accepts 4 arguments.
+* @example addCommandDirectly('hello', (a, b, c, cb) =&gt; cb('Hey!'))
+</code></pre>
+
+<h3>
+<a id="slackbotconnect" class="anchor" href="#slackbotconnect" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.connect()</h3>
+
+<p>This method will either work, or show you an appropriate error message.</p>
+
+<pre><code>* Initializes the registered commands and connects to Slack.
+</code></pre>
+
+<h3>
+<a id="after-connecting" class="anchor" href="#after-connecting" aria-hidden="true"><span class="octicon octicon-link"></span></a>After connecting</h3>
+
+<h4>
+<a id="slackbotgetuserterm" class="anchor" href="#slackbotgetuserterm" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.getUser(term)</h4>
+
+<pre><code>* Get a user by name or ID
+* @param  string  term  Search term
+* @return object        Returns object with user if found, else null.
+* @example getUser("xBytez")
+</code></pre>
+
+<h4>
+<a id="slackbotgetuserbyemailterm" class="anchor" href="#slackbotgetuserbyemailterm" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.getUserByEmail(term)</h4>
+
+<pre><code>* Get a user by e-mail address
+* @param  string  term  Search term
+* @return object        Returns object with user if found, else null.
+* @example getUserByEmail("slack@xbytez.eu")
+</code></pre>
+
+<h4>
+<a id="slackbotgetchannelterm" class="anchor" href="#slackbotgetchannelterm" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.getChannel(term)</h4>
+
+<pre><code>* Get a channel by name or ID
+* @param  string  term  Search term
+* @return object        Returns object with channel if found, else null.
+* @example getChannel("general")
+</code></pre>
+
+<h4>
+<a id="slackbotgetimterm" class="anchor" href="#slackbotgetimterm" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.getIM(term)</h4>
+
+<pre><code>* Get IM by name or ID
+* @param  string  term  Search term
+* @return object        Returns object with IM if found, else null.
+* @example getIM("xBytez")
+</code></pre>
+
+<h4>
+<a id="slackbotsendtypingchannel" class="anchor" href="#slackbotsendtypingchannel" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.sendTyping(channel)</h4>
+
+<pre><code>* Indicates the user/bot is typing by sending a typing message to the socket
+* @param  string channel  Channel/IM ID
+* @example sendTyping("C0D12BCLV")
+</code></pre>
+
+<h4>
+<a id="slackbotsendmsgchannel-text" class="anchor" href="#slackbotsendmsgchannel-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.sendMsg(channel, text)</h4>
+
+<pre><code>* Sends a message to a channel, private group or already existing IM/PM.
+* @param  string channel  Channel/IM ID
+* @param  string text  Message
+* @example sendMsg("C0D12BCLV", "The cake is a lie!")
+</code></pre>
+
+<h4>
+<a id="slackbotsendpmuserid-text" class="anchor" href="#slackbotsendpmuserid-text" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.sendPM(userID, text)</h4>
+
+<p>Using <code>SlackBot.sendIM(userID, text)</code> will work too.</p>
+
+<pre><code>* Send a direct message, if not created, create one.
+* @param  string userID Destination User ID
+* @param  string text   Message
+* @example sendPM("U0489398N")
+</code></pre>
+
+<h4>
+<a id="slackbotgetslackdata" class="anchor" href="#slackbotgetslackdata" aria-hidden="true"><span class="octicon octicon-link"></span></a>SlackBot.getSlackData()</h4>
+
+<pre><code>* Get current saved data
+* @return object Returns object with locally saved data
+* @example getSlackData()
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/wsloth/easy-slackbot">easy-slackbot</a> is maintained by <a href="https://github.com/wsloth">wsloth</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

@@ -29,7 +29,7 @@ var bot = new SlackBot({
     // Botname from @botmention
     name: 'U0J1BG81G',
     // Provide a onTeamJoin handler
-    welcome: function(data, ctx, slack, callback) {
+    welcome: function(data) {
         callback('Welcome!');
     },
     // Command prefix
@@ -37,7 +37,7 @@ var bot = new SlackBot({
     // Pass any custom commands
     commands: [
         new MyCmd(['hi', 'hello', 'hey']),
-    ],
+    ]
 });
 
 // Add an anonymous function if you can't be bothered to

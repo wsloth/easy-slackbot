@@ -90,13 +90,8 @@ function SlackBot(options) {
 
             // Respond if the command is in the commands array
             var cmd = command[0].toLowerCase();
-<<<<<<< HEAD
-            if (typeof cmdswitch[cmd] == 'function') {
-                cmdswitch[cmd](data, command, this, function (res) {
-=======
             if (typeof cmdswitch[cmd] === 'function') {
                 cmdswitch[cmd](data, command, this, function(res) {
->>>>>>> 89dd128e4914f683ebc3ff96d1b4294854ca757a
                     api.sendMsg(data.channel, res);
                 });
             } else {

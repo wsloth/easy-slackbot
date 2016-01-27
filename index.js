@@ -68,7 +68,6 @@ function SlackBot(options) {
         // Received a command
         var isValidMention = data.text.startsWith(name);
         if (data.text.charAt(0) === prefix || isValidMention) {
-            console.log('Command message received.');
 
             // Split the command and it's arguments into an array
             var command;
@@ -76,6 +75,9 @@ function SlackBot(options) {
                 command = data.text.substring(name.length).split(' ');
                 command.splice(0, 1);
 
+                if (!command[0])
+                    return;
+                
                 if (command[0].startsWith(prefix))
                     command[0] = command[0].substring(1);
             }
@@ -91,8 +93,6 @@ function SlackBot(options) {
 
             // Respond if the command is in the commands array
             var cmd = command[0].toLowerCase();
-            console.log(cmd);
-            console.log(cmdswitch);
             if (typeof cmdswitch[cmd] == 'function') {
                 cmdswitch[cmd](data, command, this, function (res) {
                     api.sendMsg(data.channel, res);

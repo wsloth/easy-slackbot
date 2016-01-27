@@ -1,6 +1,6 @@
 'use strict'; // Important! This uses many ES6 features.
 
-var slack = require('./index');
+var slack = require('easy-slackbot'); // or './index' if running locally
 var SlackBot = slack.Bot;
 var Command = slack.Command;
 
@@ -14,9 +14,15 @@ class MyCmd extends Command {
 
     // Override the default handler (!)
     handler(data, ctx, slack, callback) {
+        // data = incoming message data. I recommend console.logging it
+        // ctx = commandtext. Array of words in message. Log it.
+        // slack = SlackBot instance. Use it to do slack.getUser(data.user).name
+        // callback = call this function with your response message.
+
         // This scope is NOT MyCmd. It is the SlackBot scope.
         // To access private methods, I recommend making them
         // static and accessing them through `MyCmd.Method()`
+
         var response = 'Hello there!';
         callback(response);
     }
@@ -29,7 +35,7 @@ var bot = new SlackBot({
     // Botname from @botmention
     name: 'U0J1BG81G',
     // Provide a onTeamJoin handler
-    welcome: function(data, ctx, slack, callback) {
+    welcome: function(data) {
         callback('Welcome!');
     },
     // Command prefix
@@ -37,7 +43,7 @@ var bot = new SlackBot({
     // Pass any custom commands
     commands: [
         new MyCmd(['hi', 'hello', 'hey']),
-    ],
+    ]
 });
 
 // Add an anonymous function if you can't be bothered to
